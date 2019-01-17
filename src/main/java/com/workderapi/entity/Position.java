@@ -17,7 +17,24 @@ import com.workderapi.baseEntity.NameDescriptionEntity;
 public class Position extends NameDescriptionEntity implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	
+	@OneToOne(mappedBy = "position", fetch = FetchType.LAZY)
+	private User user;
 
+	
+	/*---------------------GETTERS AND SETTERS---------------------*/
+
+	public User getUser() {
+		return user;
+	}
+
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}

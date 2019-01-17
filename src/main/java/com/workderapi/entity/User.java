@@ -47,22 +47,19 @@ public class User extends DateEntity implements Serializable {
 	@NotNull
 	@NotEmpty
 	private String surname;
-
 	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="id_rol")
 	private Rol rol;
 	
-	
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name="id_position")
 	private Position position;
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="id_company")
+	private Company company;
 	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//	@JoinColumn(name="company")
-//	private Company company;
-//	
 	@OneToMany(mappedBy = "user",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<Order> orders;
 
@@ -113,13 +110,13 @@ public class User extends DateEntity implements Serializable {
 		this.rol = rol;
 	}
 
-//	public Company getCompany() {
-//		return company;
-//	}
-//
-//	public void setCompany(Company company) {
-//		this.company = company;
-//	}
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
+	}
 
 	public String getPathPhoto() {
 		return pathPhoto;
@@ -155,6 +152,10 @@ public class User extends DateEntity implements Serializable {
 
 	public void setOrders(List<Order> orders) {
 		this.orders = orders;
+	}
+	
+	public void addOrders(Order order) {
+		this.orders.add(order);
 	}
 
 }

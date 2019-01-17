@@ -40,13 +40,13 @@ public class UserController {
 		return userService.findById(id);
 	}
 	
-//	@PostMapping("/users")
-//	@ResponseStatus(HttpStatus.CREATED)
-//	public User create(@RequestBody User user) {
-//		user.setCreateAt(new Date());
-//		user.setActivated(true);
-//		return userService.save(user);
-//	}
+	@PostMapping("/users")
+	@ResponseStatus(HttpStatus.CREATED)
+	public User create(@RequestBody User user) {
+		user.setCreateAt(new Date());
+		user.setActivated(true);
+		return userService.save(user);
+	}
 	
 	@PutMapping("/users/{id}")
 	@ResponseStatus(HttpStatus.CREATED)

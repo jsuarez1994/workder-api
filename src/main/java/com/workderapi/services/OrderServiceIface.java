@@ -13,5 +13,9 @@ public interface OrderServiceIface {
 	public void delete(Long id);
 
 	public Order findById(Long id);
+	
+	public List<Order> getOrdersComplete(Long idUser);
+	
+	public List<Order> getOrdersIncomplete(Long idUser);
 
 }

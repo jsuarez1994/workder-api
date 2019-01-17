@@ -39,9 +39,8 @@ public class Company extends BaseTotalEntity implements Serializable {
 	@JoinColumn(name="id_sector")
 	private Sector sector;
 	
-//	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//	@JoinColumn(name = "company")
-//	private List<User> listUsers;
+	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	private List<User> listUsers;
 	
 	/*---------------------GETTERS AND SETTERS---------------------*/
 
@@ -69,14 +68,18 @@ public class Company extends BaseTotalEntity implements Serializable {
 		this.sector = sector;
 	}
 
-//	public List<User> getListUsers() {
-//		return listUsers;
-//	}
-//
-//	public void setListUsers(List<User> listUsers) {
-//		this.listUsers = listUsers;
-//	}
+	public List<User> getListUsers() {
+		return listUsers;
+	}
 
+	public void setListUsers(List<User> listUsers) {
+		this.listUsers = listUsers;
+	}
+
+	public void addUser(User user) {
+		this.listUsers.add(user);
+	}
+	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}	

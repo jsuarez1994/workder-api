@@ -35,17 +35,19 @@ public class Order extends DateEntity implements Serializable {
 	
 	@Column(name = "date_Init")
 	@Temporal(TemporalType.DATE)
-	@NotEmpty
 	private Date dateInit;
 	
 	@Column(name = "date_finish")
 	@Temporal(TemporalType.DATE)
-	@NotEmpty
 	private Date dateFinish;
 	
+	/**
+	 * FYI (Date complete/incomplete in database):
+	 * Complete : 	1
+	 * Incomplete: 	0
+	 * */
 	@Column(name = "complete")
 	private Boolean complete;
-	
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_user")

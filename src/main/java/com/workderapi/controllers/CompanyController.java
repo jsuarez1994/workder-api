@@ -28,8 +28,6 @@ public class CompanyController {
 	@Autowired
 	CompanyServiceIface companyService;
 	
-	
-	
 	/*-----------------------METHODS-----------------------*/
 	
 	@GetMapping("/companys")
