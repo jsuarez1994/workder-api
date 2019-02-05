@@ -14,8 +14,8 @@ public interface OrderServiceIface {
 
 	public Order findById(Long id);
 	
-	public List<Order> getOrdersComplete(Long idUser);
-	
-	public List<Order> getOrdersIncomplete(Long idUser);
+//	public List<Order> getOrdersComplete(Long idUser);
+//	
+//	public List<Order> getOrdersIncomplete(Long idUser);
 
 }

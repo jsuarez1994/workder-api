@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +20,7 @@ import com.workderapi.entity.User;
 import com.workderapi.services.UserServiceIface;
 import com.workderapi.util.Constants;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins= "http://localhost:4200")
 @RestController
 @RequestMapping("/workder_api")
 public class UserController {
@@ -35,7 +36,7 @@ public class UserController {
 		return userService.findAll();
 	}
 	
-	@GetMapping("/users/{id}")
+	@GetMapping("/user/{id}")
 	public User show(@PathVariable("id") Long id) {
 		return userService.findById(id);
 	}
@@ -48,7 +49,7 @@ public class UserController {
 		return userService.save(user);
 	}
 	
-	@PutMapping("/users/{id}")
+	@PutMapping("/user/{id}")
 	@ResponseStatus(HttpStatus.CREATED)
 	public User update (@RequestBody User user, @PathVariable("id") Long id) {
 		User us = userService.findById(id);
@@ -61,10 +62,28 @@ public class UserController {
 		return userService.save(us);
 	}
 	
-	@DeleteMapping("/users/{id}")
+	@DeleteMapping("/user/{id}")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
 		userService.delete(id);
+	}
+	
+	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+	public User login(@RequestBody User user) {
+		
+		User userAux = new User();
+		
+		if(	(!user.getEmail().isEmpty() && user.getEmail() != null) &&
+			(!user.getPassword().isEmpty() && user.getPassword() != null)	) {
+			
+			userAux = userService.login(user.getEmail(), user.getPassword());
+			
+		} else {
+			userAux = null;
+		}
+		
+		return userAux;
+		
 	}
 	
 

@@ -13,5 +13,7 @@ public interface UserServiceIface {
 	public void delete(Long id);
 
 	public User findById(Long id);
+	
+	public User login(String email, String password);
 
 }

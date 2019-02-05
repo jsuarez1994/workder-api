@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.Order;
 import com.workderapi.services.OrderServiceIface;
-import com.workderapi.util.Constants;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
 @RestController
@@ -56,20 +55,20 @@ public class OrderController {
 	 * Params:		Long idUser
 	 * Description:	Return all order of one user completed
 	 * */
-	@GetMapping("/orders/complete/{idUser}")
-	public List<Order> getOrdersComplete(@PathVariable("idUser") Long idUser ) {
-		return orderService.getOrdersComplete(idUser);
-	}
+//	@GetMapping("/orders/complete/{idUser}")
+//	public List<Order> getOrdersComplete(@PathVariable("idUser") Long idUser ) {
+//		return orderService.getOrdersComplete(idUser);
+//	}
 	
 	/**
 	 * Name:		getOrdersIncomplete()
 	 * Params:		Long idUser
 	 * Description:	Return all order of one user incompleted
 	 * */
-	@GetMapping("/orders/incomplete/{idUser}")
-	public List<Order> getOrdersIncomplete(@PathVariable("idUser") Long idUser ) {
-		return orderService.getOrdersComplete(idUser);
-	}
+//	@GetMapping("/orders/incomplete/{idUser}")
+//	public List<Order> getOrdersIncomplete(@PathVariable("idUser") Long idUser ) {
+//		return orderService.getOrdersComplete(idUser);
+//	}
 	
 	
 	/*-----------------------CREATE/UPDATE--------------------------*/

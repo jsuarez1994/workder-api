@@ -52,5 +52,15 @@ public class UserServiceImpl implements UserServiceIface {
 	public User findById(Long id) {
 		return userDao.findById(id).orElse(null);
 	}
+	
+	/**
+	* Name:			findById(Long id)
+	* Params:		id Type Long
+	* Description:	Return User Bean by id or null if not exists.
+	* */
+	@Override
+	public User login(String email, String password) {
+		return userDao.findByEmailAndPassword(email, password);
+	}
 
 }
