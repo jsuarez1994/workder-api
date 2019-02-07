@@ -6,13 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import com.workderapi.entity.Order;
+import com.workderapi.entity.User;
 
 public interface OrderDaoIface extends CrudRepository<Order, Long> {
 	
-//	@Query("from Order order join fetch order.user us where us.id = ?1 and order.complete = true")
-//	List<Order> getOrdersComplete(Long idUser);
-//	
-//	@Query("from Order order join fetch order.user us where us.id = ?1 and order.complete = false")
-//	List<Order> getOrdersIncomplete(Long idUser);
+	List<Order> findByUserAndCompleteTrue(User user);
+	
+	List<Order> findByUserAndCompleteFalse(User user);
 	
 }

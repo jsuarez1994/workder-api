@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.Order;
+import com.workderapi.entity.User;
 import com.workderapi.services.OrderServiceIface;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -52,23 +54,23 @@ public class OrderController {
 	
 	/**
 	 * Name:		getOrdersComplete()
-	 * Params:		Long idUser
+	 * Params:		User user
 	 * Description:	Return all order of one user completed
 	 * */
-//	@GetMapping("/orders/complete/{idUser}")
-//	public List<Order> getOrdersComplete(@PathVariable("idUser") Long idUser ) {
-//		return orderService.getOrdersComplete(idUser);
-//	}
+	@RequestMapping(value = "/orders/complete", method = RequestMethod.POST)
+	public List<Order> getOrdersComplete( @RequestBody User user ) {
+		return orderService.getOrdersCompleteByUser(user);	
+	}
 	
 	/**
 	 * Name:		getOrdersIncomplete()
-	 * Params:		Long idUser
+	 * Params:		User user
 	 * Description:	Return all order of one user incompleted
 	 * */
-//	@GetMapping("/orders/incomplete/{idUser}")
-//	public List<Order> getOrdersIncomplete(@PathVariable("idUser") Long idUser ) {
-//		return orderService.getOrdersComplete(idUser);
-//	}
+	@RequestMapping(value = "/orders/incomplete", method = RequestMethod.POST)
+	public List<Order> getOrdersIncomplete( @RequestBody User user ) {
+		return orderService.getOrdersIncompleteByUser(user);
+	}
 	
 	
 	/*-----------------------CREATE/UPDATE--------------------------*/

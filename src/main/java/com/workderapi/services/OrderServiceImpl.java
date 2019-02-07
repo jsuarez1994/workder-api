@@ -45,20 +45,20 @@ public class OrderServiceImpl implements OrderServiceIface {
 	 * Params:		Long idUser
 	 * Description:	Return all order of one user completed
 	 * */
-//	@Override
-//	public List<Order> getOrdersComplete(Long id) {
-//		return orderDao.getOrdersComplete(id);
-//	}
-//
-//	/**
-//	 * Name:		getOrdersIncomplete()
-//	 * Params:		Long idUser
-//	 * Description:	Return all order of one user completed
-//	 * */
-//	@Override
-//	public List<Order> getOrdersIncomplete(Long id) {
-//		return orderDao.getOrdersIncomplete(id);
-//	}
+	@Override
+	public List<Order> getOrdersCompleteByUser(User user) {
+		return orderDao.findByUserAndCompleteTrue(user);
+	}
+
+	/**
+	 * Name:		getOrdersIncomplete()
+	 * Params:		Long idUser
+	 * Description:	Return all order of one user completed
+	 * */
+	@Override
+	public List<Order> getOrdersIncompleteByUser(User user) {
+		return orderDao.findByUserAndCompleteFalse(user);
+	}
 	
 	/**
 	* Name:			save(Order Order)

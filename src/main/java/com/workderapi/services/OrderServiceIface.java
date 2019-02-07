@@ -3,6 +3,7 @@ package com.workderapi.services;
 import java.util.List;
 
 import com.workderapi.entity.Order;
+import com.workderapi.entity.User;
 
 public interface OrderServiceIface {
 	
@@ -14,8 +15,8 @@ public interface OrderServiceIface {
 
 	public Order findById(Long id);
 	
-//	public List<Order> getOrdersComplete(Long idUser);
-//	
-//	public List<Order> getOrdersIncomplete(Long idUser);
+	public List<Order> getOrdersCompleteByUser(User user);
+	
+	public List<Order> getOrdersIncompleteByUser(User user);
 
 }
