@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workderapi.daos.UserDaoIface;
+import com.workderapi.entity.Company;
 import com.workderapi.entity.User;
 
 @Service
@@ -62,5 +63,6 @@ public class UserServiceImpl implements UserServiceIface {
 	public User login(String email, String password) {
 		return userDao.findByEmailAndPassword(email, password);
 	}
+
 
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.workderapi.daos.OrderDaoIface;
 import com.workderapi.daos.UserDaoIface;
+import com.workderapi.entity.Company;
 import com.workderapi.entity.Order;
 import com.workderapi.entity.User;
 
@@ -79,6 +80,7 @@ public class OrderServiceImpl implements OrderServiceIface {
 	public void delete(Long id) {
 		orderDao.deleteById(id);
 	}
+
 
 	
 

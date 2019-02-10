@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.workderapi.entity.Company;
 import com.workderapi.entity.Company;
 import com.workderapi.services.CompanyServiceIface;
 import com.workderapi.util.Constants;
@@ -30,38 +32,60 @@ public class CompanyController {
 	
 	/*-----------------------METHODS-----------------------*/
 	
-	@GetMapping("/companys")
+	@RequestMapping(value = "/companys", method = RequestMethod.GET)
 	public List<Company> index(){
 		return companyService.findAll();
 	}
 	
-	@GetMapping("/companys/{id}")
+	@RequestMapping(value = "/company/{id}", method = RequestMethod.GET)
 	public Company show(@PathVariable("id") Long id) {
 		return companyService.findById(id);
 	}
 	
-	@PostMapping("/companys")
+	
+	@RequestMapping(value = "/company", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Company create(@RequestBody Company company) {
-		return companyService.save(company);
+		
+		Company companyToSave;
+		Company companyExit;
+		
+		if( company.getId() != null ) { //UPDATE
+			companyToSave = companyService.findById(company.getId());
+			
+			if(company.getName() != null) {
+				companyToSave.setName(company.getName());
+			}
+			
+			if(company.getDescription() != null) {
+				companyToSave.setDescription(company.getDescription());
+			}
+			
+			if(company.getAddress() != null) {
+				companyToSave.setAddress(company.getAddress());
+			}
+			
+			if(company.getSector() != null) {
+				companyToSave.setSector(company.getSector());
+			}
+			
+			if(company.getWeb() != null) {
+				companyToSave.setWeb(company.getWeb());
+			}
+			
+			companyToSave.setUpdateAt(new Date());
+			companyExit = companyService.save(companyToSave);
+			
+		} else { //SAVE			
+			company.setCreateAt(new Date());
+			companyExit = companyService.save(company);
+		}
+		
+		return companyExit;
+		
 	}
 	
-	@PutMapping("/companys/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Company update (@RequestBody Company company, @PathVariable("id") Long id) {
-		Company r = companyService.findById(id);
-		
-		r.setUpdateAt(new Date());
-		r.setName(company.getName());
-		r.setDescription(company.getDescription());
-		r.setSector(company.getSector());
-		r.setWeb(company.getWeb());
-		r.setAddress(company.getAddress());
-		
-		return companyService.save(r);
-	}
-	
-	@DeleteMapping("/companys/{id}")
+	@RequestMapping(value = "/company/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
 		companyService.delete(id);

@@ -5,11 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.User;
 import com.workderapi.services.UserServiceIface;
-import com.workderapi.util.Constants;
 
 @CrossOrigin(origins= "http://localhost:4200")
 @RestController
@@ -31,38 +26,71 @@ public class UserController {
 	
 	/*-----------------------METHODS-----------------------*/
 	
-	@GetMapping("/users")
+	@RequestMapping(value = "/users", method = RequestMethod.GET)
 	public List<User> index(){
 		return userService.findAll();
 	}
 	
-	@GetMapping("/user/{id}")
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
 	public User show(@PathVariable("id") Long id) {
 		return userService.findById(id);
 	}
 	
-	@PostMapping("/users")
+	@RequestMapping(value = "/user", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public User create(@RequestBody User user) {
-		user.setCreateAt(new Date());
-		user.setActivated(true);
-		return userService.save(user);
+		
+		User userToSave;
+		User userExit;
+		
+		if( user.getId() != null ) { //UPDATE
+			userToSave = userService.findById(user.getId());
+			
+			if(user.getName() != null) {
+				userToSave.setName(user.getName());
+			}
+			
+			if(user.getSurname() != null) {
+				userToSave.setSurname(user.getSurname());
+			}
+			
+			if(user.getPathPhoto() != null) {
+				userToSave.setPathPhoto(user.getPathPhoto());
+			}
+			
+			if(user.getEmail() != null) {
+				userToSave.setEmail(user.getEmail());
+			}
+			
+			if(user.getPassword() != null) {
+				userToSave.setPassword(user.getPassword());
+			}
+			
+			if(user.getRol() != null) {
+				userToSave.setRol(user.getRol());
+			}
+			
+			if(user.getPosition() != null) {
+				userToSave.setPosition(user.getPosition());
+			}
+			
+			if(user.getCompany() != null) {
+				userToSave.setCompany(user.getCompany());
+			}
+			
+			userToSave.setUpdateAt(new Date());
+			userExit = userService.save(userToSave);
+			
+		} else { //SAVE			
+			user.setCreateAt(new Date());
+			userExit = userService.save(user);
+		}
+		
+		return userExit;
+		
 	}
 	
-	@PutMapping("/user/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public User update (@RequestBody User user, @PathVariable("id") Long id) {
-		User us = userService.findById(id);
-		
-		us.setName(user.getName());
-		us.setSurname(user.getSurname());
-		us.setUpdateAt(new Date());
-		
-		
-		return userService.save(us);
-	}
-	
-	@DeleteMapping("/user/{id}")
+	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
 		userService.delete(id);

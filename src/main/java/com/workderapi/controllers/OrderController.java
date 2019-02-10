@@ -1,23 +1,23 @@
-package com.workderapi.controllers;
+	package com.workderapi.controllers;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.workderapi.entity.Company;
 import com.workderapi.entity.Order;
 import com.workderapi.entity.User;
+import com.workderapi.services.CompanyServiceIface;
 import com.workderapi.services.OrderServiceIface;
 
 @CrossOrigin(origins= {"http://localhost:4200"})
@@ -28,6 +28,9 @@ public class OrderController {
 	@Autowired
 	OrderServiceIface orderService;	
 	
+	@Autowired
+	CompanyServiceIface companyService;	
+	
 	/*-----------------------METHODS-----------------------*/
 	
 	/*-----------------------GETS--------------------------*/
@@ -37,7 +40,7 @@ public class OrderController {
 	 * Params:		None
 	 * Description:	Return all orders of database
 	 * */
-	@GetMapping("/orders")
+	@RequestMapping(value = "/orders", method = RequestMethod.GET)
 	public List<Order> index(){
 		return orderService.findAll();
 	}
@@ -47,7 +50,7 @@ public class OrderController {
 	 * Params:		Long id
 	 * Description:	Return order of id of params
 	 * */
-	@GetMapping("/orders/{id}")
+	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
 	public Order show(@PathVariable("id") Long id) {
 		return orderService.findById(id);
 	}
@@ -72,35 +75,92 @@ public class OrderController {
 		return orderService.getOrdersIncompleteByUser(user);
 	}
 	
+	/**
+	 * Name:		getOrdersCompleteOfCompany()
+	 * Params:		User user
+	 * Description:	Return all order of one company completed
+	 * */
+	@RequestMapping(value = "/orders/company_complete", method = RequestMethod.POST)
+	public List<Order> getOrdersCompleteByCompany( @RequestBody Company company ) {
+		
+		List<Order> ordersComplete = new ArrayList<>();
+		
+		Company companyUser = companyService.findById(company.getId());
+		List<User> users = companyUser.getListUsers();
+		
+		
+		for(User user : users) {
+			ordersComplete.addAll(orderService.getOrdersCompleteByUser(user));
+		}
+		
+		return ordersComplete;
+	}
 	
-	/*-----------------------CREATE/UPDATE--------------------------*/
-	@PostMapping("/orders")
+	/**
+	 * Name:		getOrdersIncompleteOfCompany()
+	 * Params:		User user
+	 * Description:	Return all order of one company completed
+	 * */
+	@RequestMapping(value = "/orders/company_incomplete", method = RequestMethod.POST)
+	public List<Order> getOrdersIncompleteByCompany( @RequestBody Company company ) {
+		
+		List<Order> ordersComplete = new ArrayList<>();
+		
+		Company companyUser = companyService.findById(company.getId());
+		List<User> users = companyUser.getListUsers();
+		
+		
+		for(User user : users) {
+			ordersComplete.addAll(orderService.getOrdersIncompleteByUser(user));
+		}
+		
+		return ordersComplete;
+	}
+	
+	/**
+	 * Name:		create/update()
+	 * Params:		Order order
+	 * Description:	Save or Update order send.
+	 * */
+	@RequestMapping(value = "/order", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Order create(@RequestBody Order order) {
-		order.setCreateAt(new Date());
-		order.setComplete(false);
-		return orderService.save(order);
-	}
-	
-	@PutMapping("/orders/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Order update (@RequestBody Order order, @PathVariable("id") Long id) {
-		Order r = orderService.findById(id);
-
-		r.setUpdateAt(new Date());
-		r.setTitle(order.getTitle());
-		r.setDescription(order.getDescription());
-		r.setDateInit(order.getDateInit());
-		r.setDateFinish(order.getDateFinish());
-		r.setUser(order.getUser());
 		
-		return orderService.save(r);
+		Order orderToSave;
+		Order orderExit;
+		
+		if( order.getId() != null ) { //UPDATE
+			orderToSave = orderService.findById(order.getId());
+			
+			if(order.getDateInit() != null) {				
+				orderToSave.setDateInit(order.getDateInit());
+			}
+			if(order.getDateFinish() != null) {				
+				orderToSave.setDateFinish(order.getDateFinish());
+			}
+			if(order.getTitle() != null) {
+				orderToSave.setTitle(order.getTitle());
+			}
+			if(order.getDescription() != null) {
+				orderToSave.setDescription(order.getDescription());
+			}
+			if(order.getUser() != null) {
+				orderToSave.setUser(order.getUser());
+			}
+			orderToSave.setUpdateAt(new Date());
+			orderExit = orderService.save(orderToSave);
+			
+		} else { //SAVE			
+			order.setCreateAt(new Date());
+			order.setComplete(false);
+			orderExit = orderService.save(order);
+		}
+		
+		return orderExit;
+		
 	}
 	
-	
-	
-	/*-----------------------DELETE--------------------------*/
-	@DeleteMapping("/orders/{id}")
+	@RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
 		orderService.delete(id);

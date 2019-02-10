@@ -2,6 +2,7 @@ package com.workderapi.services;
 
 import java.util.List;
 
+import com.workderapi.entity.Company;
 import com.workderapi.entity.User;
 
 public interface UserServiceIface {

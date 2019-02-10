@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.Rol;
+import com.workderapi.entity.Rol;
 import com.workderapi.services.RolServiceIface;
 import com.workderapi.util.Constants;
 
@@ -38,29 +39,44 @@ public class RolController {
 		return rolService.findAll();
 	}
 	
-	@GetMapping("/rols/{id}")
+	@RequestMapping(value = "/rol/{id}", method = RequestMethod.GET)
 	public Rol show(@PathVariable("id") Long id) {
 		return rolService.findById(id);
 	}
 	
-	@PostMapping("/rols")
+	@RequestMapping(value = "/rol", method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Rol create(@RequestBody @Valid Rol rol) {
-		return rolService.save(rol);
+	public Rol create(@RequestBody Rol rol) {
+		
+		Rol rolToSave;
+		Rol rolExit;
+		
+		if( rol.getId() != null ) { //UPDATE
+			rolToSave = rolService.findById(rol.getId());
+			
+			if(rol.getName() != null) {
+				rolToSave.setName(rol.getName());
+			}
+			
+			if(rol.getDescription() != null) {
+				rolToSave.setDescription(rol.getDescription());
+			}
+			
+			if(rol.getUser() != null) {
+				rolToSave.setUser(rol.getUser());
+			}
+			
+			rolExit = rolService.save(rolToSave);
+			
+		} else { //SAVE			
+			rolExit = rolService.save(rol);
+		}
+		
+		return rolExit;
+		
 	}
 	
-	@PutMapping("/rols/{id}")
-	@ResponseStatus(HttpStatus.CREATED)
-	public Rol update (@RequestBody @Valid Rol rol, @PathVariable("id") Long id) {
-		Rol r = rolService.findById(id);
-		
-		r.setName(rol.getName());
-		r.setDescription(rol.getDescription());
-		
-		return rolService.save(r);
-	}
-	
-	@DeleteMapping("/rols/{id}")
+	@RequestMapping(value = "/rol/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {
 		rolService.delete(id);
