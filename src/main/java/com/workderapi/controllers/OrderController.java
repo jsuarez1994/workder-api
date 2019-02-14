@@ -147,6 +147,9 @@ public class OrderController {
 			if(order.getUser() != null) {
 				orderToSave.setUser(order.getUser());
 			}
+			if(order.getComplete() != null) {
+				orderToSave.setComplete(order.getComplete());
+			}
 			orderToSave.setUpdateAt(new Date());
 			orderExit = orderService.save(orderToSave);
 			

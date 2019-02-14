@@ -48,15 +48,15 @@ public class User extends DateEntity implements Serializable {
 	@NotEmpty
 	private String surname;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name="id_rol")
 	private Rol rol;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name="id_position")
 	private Position position;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne()
 	@JoinColumn(name="id_company")
 	private Company company;
 	

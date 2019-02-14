@@ -10,6 +10,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workderapi.baseEntity.NameDescriptionEntity;
 
 @Entity
@@ -19,6 +20,7 @@ public class Position extends NameDescriptionEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	@OneToOne(mappedBy = "position", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private User user;
 
 	

@@ -1,24 +1,18 @@
 package com.workderapi.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
+
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workderapi.baseEntity.BaseTotalEntity;
 
 @Entity
@@ -35,11 +29,12 @@ public class Company extends BaseTotalEntity implements Serializable {
 	@NotEmpty
 	private String address;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToOne()
 	@JoinColumn(name="id_sector")
 	private Sector sector;
 	
-	@OneToMany(mappedBy = "company", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "company", cascade = CascadeType.ALL)
+	@JsonIgnore
 	private List<User> listUsers;
 	
 	/*---------------------GETTERS AND SETTERS---------------------*/

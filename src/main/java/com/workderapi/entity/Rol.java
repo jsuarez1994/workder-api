@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.workderapi.baseEntity.NameDescriptionEntity;
 
 @Entity
@@ -20,6 +21,7 @@ public class Rol extends NameDescriptionEntity implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@OneToOne(mappedBy = "rol", fetch = FetchType.LAZY)
+	@JsonIgnore
 	private User user;
 	
 	/*---------------------GETTERS AND SETTERS---------------------*/

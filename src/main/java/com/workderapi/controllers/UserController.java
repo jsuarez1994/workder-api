@@ -98,19 +98,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	public User login(@RequestBody User user) {
-		
-		User userAux = new User();
-		
-		if(	(!user.getEmail().isEmpty() && user.getEmail() != null) &&
-			(!user.getPassword().isEmpty() && user.getPassword() != null)	) {
-			
-			userAux = userService.login(user.getEmail(), user.getPassword());
-			
-		} else {
-			userAux = null;
-		}
-		
-		return userAux;
+		return userService.login(user.getEmail(), user.getPassword());
 		
 	}
 	
