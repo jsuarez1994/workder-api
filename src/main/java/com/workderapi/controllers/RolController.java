@@ -62,8 +62,8 @@ public class RolController {
 				rolToSave.setDescription(rol.getDescription());
 			}
 			
-			if(rol.getUser() != null) {
-				rolToSave.setUser(rol.getUser());
+			if(rol.getUsers() != null) {
+				rolToSave.setUsers(rol.getUsers());
 			}
 			
 			rolExit = rolService.save(rolToSave);

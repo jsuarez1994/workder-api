@@ -54,8 +54,8 @@ public class PositionController {
 			if(position.getDescription() != null) {
 				positionToSave.setDescription(position.getDescription());
 			}
-			if(position.getUser() != null) {
-				positionToSave.setUser(position.getUser());
+			if(position.getUsers() != null) {
+				positionToSave.setUsers(position.getUsers());
 			}
 			
 			positionExit = positionService.save(positionToSave);

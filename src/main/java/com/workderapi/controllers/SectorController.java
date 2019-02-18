@@ -54,8 +54,8 @@ public class SectorController {
 				sectorToSave.setDescription(sector.getDescription());
 			}
 			
-			if(sector.getCompany() != null) {
-				sectorToSave.setCompany(sector.getCompany());
+			if(sector.getCompanys() != null) {
+				sectorToSave.setCompanys(sector.getCompanys());
 			}
 			
 			sectorExit = sectorService.save(sectorToSave);

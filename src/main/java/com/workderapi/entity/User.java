@@ -1,27 +1,20 @@
 package com.workderapi.entity;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-
-import org.hibernate.validator.constraints.UniqueElements;
 
 import com.workderapi.baseEntity.DateEntity;
 
@@ -34,6 +27,7 @@ public class User extends DateEntity implements Serializable {
 	@Email
 	@NotNull
 	@NotEmpty
+	@Column(unique = true)
 	private String email;
 
 	@NotNull
@@ -48,11 +42,11 @@ public class User extends DateEntity implements Serializable {
 	@NotEmpty
 	private String surname;
 	
-	@OneToOne()
+	@ManyToOne()
 	@JoinColumn(name="id_rol")
 	private Rol rol;
 	
-	@OneToOne()
+	@ManyToOne()
 	@JoinColumn(name="id_position")
 	private Position position;
 	

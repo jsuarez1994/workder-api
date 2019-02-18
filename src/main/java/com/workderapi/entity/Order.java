@@ -44,7 +44,6 @@ public class Order extends DateEntity implements Serializable {
 	 * Complete : 	1
 	 * Incomplete: 	0
 	 * */
-	@Column(name = "complete")
 	private Boolean complete;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
