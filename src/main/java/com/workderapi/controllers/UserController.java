@@ -2,6 +2,8 @@ package com.workderapi.controllers;
 
 import java.util.Date;
 import java.util.List;
+
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -78,11 +80,16 @@ public class UserController {
 				userToSave.setCompany(user.getCompany());
 			}
 			
+			if(user.getActivated() != null) {
+				userToSave.setActivated(user.getActivated());
+			}
+			
 			userToSave.setUpdateAt(new Date());
 			userExit = userService.save(userToSave);
 			
 		} else { //SAVE			
 			user.setCreateAt(new Date());
+			user.setPassword(DigestUtils.sha256Hex(user.getPassword()));//Password hashet sha256
 			userExit = userService.save(user);
 		}
 		
@@ -98,7 +105,7 @@ public class UserController {
 	
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	public User login(@RequestBody User user) {
-		return userService.login(user.getEmail(), user.getPassword());
+		return userService.login(user.getEmail(), DigestUtils.sha256Hex(user.getPassword()));
 		
 	}
 	
