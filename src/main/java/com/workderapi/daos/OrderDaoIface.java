@@ -14,4 +14,6 @@ public interface OrderDaoIface extends CrudRepository<Order, Long> {
 	
 	List<Order> findByUserAndCompleteFalse(User user);
 	
+	List<Order> findByUser(User user);
+	
 }

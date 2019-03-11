@@ -18,5 +18,7 @@ public interface OrderServiceIface {
 	public List<Order> getOrdersCompleteByUser(User user);
 	
 	public List<Order> getOrdersIncompleteByUser(User user);
+	
+	public List<Order> getOrdersByUser(User user);
 
 }

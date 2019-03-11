@@ -62,6 +62,16 @@ public class OrderServiceImpl implements OrderServiceIface {
 	}
 	
 	/**
+	 * Name:		getOrdersByUser()
+	 * Params:		Long idUser
+	 * Description:	Return all order of one user completed
+	 * */
+	@Override
+	public List<Order> getOrdersByUser(User user) {
+		return orderDao.findByUser(user);
+	}
+	
+	/**
 	* Name:			save(Order Order)
 	* Params:		order Bean Order
 	* Description:	Save the bean of params

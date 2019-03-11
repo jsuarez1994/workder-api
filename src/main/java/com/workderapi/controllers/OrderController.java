@@ -76,6 +76,16 @@ public class OrderController {
 	}
 	
 	/**
+	 * Name:		getOrdersByUser()
+	 * Params:		User user
+	 * Description:	Return all order of one user
+	 * */
+	@RequestMapping(value = "/orders/user", method = RequestMethod.POST)
+	public List<Order> getOrdersByUser( @RequestBody User user ) {
+		return orderService.getOrdersByUser(user);
+	}
+	
+	/**
 	 * Name:		getOrdersCompleteOfCompany()
 	 * Params:		User user
 	 * Description:	Return all order of one company completed
