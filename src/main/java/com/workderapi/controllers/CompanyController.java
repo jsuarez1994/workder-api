@@ -22,7 +22,7 @@ import com.workderapi.entity.Company;
 import com.workderapi.services.CompanyServiceIface;
 import com.workderapi.util.Constants;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins= "http://localhost:4200")
 @RestController
 @RequestMapping("/workder_api")
 public class CompanyController {

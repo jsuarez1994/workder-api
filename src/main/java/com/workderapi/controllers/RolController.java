@@ -23,7 +23,7 @@ import com.workderapi.entity.Rol;
 import com.workderapi.services.RolServiceIface;
 import com.workderapi.util.Constants;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins= "http://localhost:4200")
 @RestController
 @RequestMapping("/workder_api")
 public class RolController {

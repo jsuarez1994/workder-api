@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.workderapi.entity.Sector;
 import com.workderapi.services.SectorServiceIface;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins= "http://localhost:4200")
 @RestController
 @RequestMapping("/workder_api")
 public class SectorController {

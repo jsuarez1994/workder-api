@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.workderapi.entity.User;
 import com.workderapi.services.UserServiceIface;
 
-@CrossOrigin(origins= "http://localhost:4200")
+@CrossOrigin (origins= "http://localhost:4200")
 @RestController
 @RequestMapping("/workder_api")
 public class UserController {

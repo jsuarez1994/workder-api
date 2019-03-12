@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.workderapi.entity.Position;
 import com.workderapi.services.PositionServiceIface;
 
-@CrossOrigin(origins= {"http://localhost:4200"})
+@CrossOrigin(origins= "http://localhost:4200")
 @RestController
 @RequestMapping("/workder_api")
 public class PositionController {
