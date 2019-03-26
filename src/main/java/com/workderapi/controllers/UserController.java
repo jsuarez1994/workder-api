@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.workderapi.entity.Order;
 import com.workderapi.entity.User;
 import com.workderapi.services.UserServiceIface;
+import com.workderapi.util.Constants;
 
 @CrossOrigin (origins= "http://localhost:4200")
 @RestController
@@ -90,6 +92,9 @@ public class UserController {
 		} else { //SAVE			
 			user.setCreateAt(new Date());
 			user.setPassword(DigestUtils.sha256Hex(user.getPassword()));//Password hashet sha256
+			if(user.getPathPhoto().isEmpty()) {
+				user.setPathPhoto(Constants.PATH_PHOTO_DEFAULT);
+			}
 			userExit = userService.save(user);
 		}
 		
@@ -106,6 +111,28 @@ public class UserController {
 	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
 	public User login(@RequestBody User user) {
 		return userService.login(user.getEmail(), DigestUtils.sha256Hex(user.getPassword()));
+		
+	}
+	
+	@RequestMapping(value = "/users/company/{id}", method = RequestMethod.GET)
+	public List<User> findByCompany(@PathVariable("id")Long idCompany) {
+		return userService.findByCompany(idCompany);
+	}
+	
+	@RequestMapping(value = "/user/order", method = RequestMethod.POST)
+	public User findByOrder(@RequestBody Order order) {
+		User user =  userService.findByOrder(order);
+		
+		User out = new User();
+		
+		out.setId(user.getId());
+		out.setName(user.getName());
+		out.setSurname(user.getSurname());
+		out.setEmail(user.getEmail());
+		out.setPathPhoto(user.getPathPhoto());
+		out.setPosition(user.getPosition());
+		
+		return out;
 		
 	}
 	

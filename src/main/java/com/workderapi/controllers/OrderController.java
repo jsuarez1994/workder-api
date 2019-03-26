@@ -33,8 +33,6 @@ public class OrderController {
 	
 	/*-----------------------METHODS-----------------------*/
 	
-	/*-----------------------GETS--------------------------*/
-	
 	/**
 	 * Name:		index()
 	 * Params:		None
@@ -173,6 +171,11 @@ public class OrderController {
 		
 	}
 	
+	/**
+	 * Name:		delete()
+	 * Params:		Long id
+	 * Description:	Delete order.
+	 * */
 	@RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable("id") Long id) {

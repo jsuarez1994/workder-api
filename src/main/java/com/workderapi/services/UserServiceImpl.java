@@ -1,11 +1,13 @@
 package com.workderapi.services;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.workderapi.daos.UserDaoIface;
 import com.workderapi.entity.Company;
+import com.workderapi.entity.Order;
 import com.workderapi.entity.User;
 
 @Service
@@ -62,6 +64,28 @@ public class UserServiceImpl implements UserServiceIface {
 	@Override
 	public User login(String email, String password) {
 		return userDao.findByEmailAndPassword(email, password);
+	}
+	
+	/**
+	* Name:			findByCompany(Long idCompany)
+	* Params:		idCompany Type Long
+	* Description:	Return List User Bean by id .
+	* */
+	@Override
+	public List<User> findByCompany(Long idCompany) {
+		Company company = new Company();
+		company.setId(idCompany);
+		return userDao.findByCompany(company);
+	}
+	
+	/**
+	* Name:			findByOrder(Order order)
+	* Params:		Order order
+	* Description:	Return User Bean by Order.
+	* */
+	@Override
+	public User findByOrder(Order order) {
+		return userDao.findByOrders(order);
 	}
 
 
