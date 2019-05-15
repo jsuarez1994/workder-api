@@ -14,63 +14,83 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.Sector;
 import com.workderapi.services.SectorServiceIface;
+import com.workderapi.util.Constants.ConstantsWS;
 
-@CrossOrigin(origins= "http://localhost:4200")
+@CrossOrigin(origins = ConstantsWS.WS_DNS)
 @RestController
-@RequestMapping("/workder_api")
+@RequestMapping(ConstantsWS.WS_BASE_WORKDER_API)
 public class SectorController {
-	
+
 	@Autowired
 	SectorServiceIface sectorService;
-		
-	
+
 	/*-----------------------METHODS-----------------------*/
-	
-	@RequestMapping(value = "/sectors", method = RequestMethod.GET)
-	public List<Sector> index(){
+
+	/**
+	* Name:			index()
+	* @Params:		
+	* Description:	Retorna todas las entidades Sector de BD
+	* */
+	@RequestMapping(value = ConstantsWS.WS_SECTORS, method = RequestMethod.GET)
+	public List<Sector> index() {
 		return sectorService.findAll();
 	}
-	
-	@RequestMapping(value = "/sector/{id}", method = RequestMethod.GET)
-	public Sector show(@PathVariable("id") Long id) {
+
+	/**
+	 * Name:		show()
+	 * @Params:		id
+	 * Description:	Retorna un sector a partir de su id
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_SECTOR_ID, method = RequestMethod.GET)
+	public Sector show(@PathVariable(ConstantsWS.ID) Long id) {
 		return sectorService.findById(id);
 	}
-	
-	@RequestMapping(value = "/sector", method = RequestMethod.POST)
+
+	/**
+	 * Name:		create()
+	 * @Params:		position
+	 * Description:	Crea/Actualiza una entidad Sector
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_SECTOR, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Sector create(@RequestBody Sector sector) {
-		
+
 		Sector sectorToSave;
 		Sector sectorExit;
-		
-		if( sector.getId() != null ) { //UPDATE
+
+		if (sector.getId() != null) { // UPDATE
 			sectorToSave = sectorService.findById(sector.getId());
-			
-			if(sector.getName() != null) {
+
+			if (sector.getName() != null) {
 				sectorToSave.setName(sector.getName());
 			}
-			
-			if(sector.getDescription() != null) {
+
+			if (sector.getDescription() != null) {
 				sectorToSave.setDescription(sector.getDescription());
 			}
-			
-			if(sector.getCompanys() != null) {
+
+			if (sector.getCompanys() != null) {
 				sectorToSave.setCompanys(sector.getCompanys());
 			}
-			
+
 			sectorExit = sectorService.save(sectorToSave);
-			
-		} else { //SAVE			
+
+		} else { // SAVE
 			sectorExit = sectorService.save(sector);
 		}
-		
+
 		return sectorExit;
-		
+
 	}
-	
-	@RequestMapping(value = "/sector/{id}", method = RequestMethod.DELETE)
+
+	/**
+	 * Name:		delete()
+	 * @Params:		id
+	 * Description:	Elimina una entidad Sector a partir de su id.
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_SECTOR_ID, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable(ConstantsWS.ID) Long id) {
 		sectorService.delete(id);
 	}
 

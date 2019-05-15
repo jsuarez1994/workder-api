@@ -2,16 +2,10 @@ package com.workderapi.controllers;
 
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,13 +13,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.Rol;
-import com.workderapi.entity.Rol;
 import com.workderapi.services.RolServiceIface;
-import com.workderapi.util.Constants;
+import com.workderapi.util.Constants.ConstantsWS;
 
-@CrossOrigin(origins= "http://localhost:4200")
+@CrossOrigin(origins= ConstantsWS.WS_DNS)
 @RestController
-@RequestMapping("/workder_api")
+@RequestMapping(ConstantsWS.WS_BASE_WORKDER_API)
 public class RolController {
 	
 	@Autowired
@@ -34,17 +27,32 @@ public class RolController {
 	
 	/*-----------------------METHODS-----------------------*/
 	
-	@RequestMapping(value = "/rols", method = RequestMethod.GET)
+	/**
+	* Name:			index()
+	* @Params:		
+	* Description:	Retorna todas las entidades Rol de BD
+	* */
+	@RequestMapping(value = ConstantsWS.WS_ROL, method = RequestMethod.GET)
 	public List<Rol> index(){
 		return rolService.findAll();
 	}
 	
-	@RequestMapping(value = "/rol/{id}", method = RequestMethod.GET)
-	public Rol show(@PathVariable("id") Long id) {
+	/**
+	 * Name:		show()
+	 * @Params:		id
+	 * Description:	Retorna un rol a partir de su id
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_ROL_ID, method = RequestMethod.GET)
+	public Rol show(@PathVariable(ConstantsWS.ID) Long id) {
 		return rolService.findById(id);
 	}
 	
-	@RequestMapping(value = "/rol", method = RequestMethod.POST)
+	/**
+	 * Name:		create()
+	 * @Params:		position
+	 * Description:	Crea/Actualiza una entidad Rol
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_ROL, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Rol create(@RequestBody Rol rol) {
 		
@@ -76,9 +84,14 @@ public class RolController {
 		
 	}
 	
-	@RequestMapping(value = "/rol/{id}", method = RequestMethod.DELETE)
+	/**
+	 * Name:		delete()
+	 * @Params:		id
+	 * Description:	Elimina una entidad Rol a partir de su id.
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_ROL_ID, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable(ConstantsWS.ID) Long id) {
 		rolService.delete(id);
 	}
 

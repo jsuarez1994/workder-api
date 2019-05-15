@@ -18,123 +18,156 @@ import com.workderapi.entity.Order;
 import com.workderapi.entity.User;
 import com.workderapi.services.UserServiceIface;
 import com.workderapi.util.Constants;
+import com.workderapi.util.Constants.ConstantsWS;
 
-@CrossOrigin (origins= "http://localhost:4200")
+@CrossOrigin(origins = ConstantsWS.WS_DNS)
 @RestController
-@RequestMapping("/workder_api")
+@RequestMapping(ConstantsWS.WS_BASE_WORKDER_API)
 public class UserController {
 
 	@Autowired
 	UserServiceIface userService;
-		
-	
+
 	/*-----------------------METHODS-----------------------*/
-	
-	@RequestMapping(value = "/users", method = RequestMethod.GET)
-	public List<User> index(){
+
+	/**
+	* Name:			index()
+	* @Params:		
+	* Description:	Retorna todos los usuarios de la BD
+	* */
+	@RequestMapping(value = ConstantsWS.WS_USERS, method = RequestMethod.GET)
+	public List<User> index() {
 		return userService.findAll();
 	}
-	
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET)
-	public User show(@PathVariable("id") Long id) {
+
+	/**
+	* Name:			show()
+	* @Params:		id
+	* Description:	Muestra usuario a partir de su ID
+	* */
+	@RequestMapping(value = ConstantsWS.WS_USER_ID, method = RequestMethod.GET)
+	public User show(@PathVariable(ConstantsWS.ID) Long id) {
 		return userService.findById(id);
 	}
-	
-	@RequestMapping(value = "/user", method = RequestMethod.POST)
+
+	/**
+	* Name:			create()
+	* @Params:		user
+	* Description:	Crea/Actualiza usuario
+	* */
+	@RequestMapping(value = ConstantsWS.WS_USER, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public User create(@RequestBody User user) {
-		
+
 		User userToSave;
 		User userExit;
-		
-		if( user.getId() != null ) { //UPDATE
+
+		if (user.getId() != null) { // UPDATE
 			userToSave = userService.findById(user.getId());
-			
-			if(user.getName() != null) {
-				userToSave.setName(user.getName());
+
+			if (user.getName() != null) {
+				userToSave.setName(user.getName().trim());
 			}
-			
-			if(user.getSurname() != null) {
-				userToSave.setSurname(user.getSurname());
+
+			if (user.getSurname() != null) {
+				userToSave.setSurname(user.getSurname().trim());
 			}
-			
-			if(user.getPathPhoto() != null) {
-				userToSave.setPathPhoto(user.getPathPhoto());
+
+			if (user.getPathPhoto() != null) {
+				userToSave.setPathPhoto(user.getPathPhoto().trim());
 			}
-			
-			if(user.getEmail() != null) {
-				userToSave.setEmail(user.getEmail());
+
+			if (user.getEmail() != null) {
+				userToSave.setEmail(user.getEmail().trim());
 			}
-			
-			if(user.getPassword() != null) {
-				userToSave.setPassword(user.getPassword());
+
+			if (user.getPassword() != null) {
+				userToSave.setPassword(user.getPassword().trim());
 			}
-			
-			if(user.getRol() != null) {
+
+			if (user.getRol() != null) {
 				userToSave.setRol(user.getRol());
 			}
-			
-			if(user.getPosition() != null) {
+
+			if (user.getPosition() != null) {
 				userToSave.setPosition(user.getPosition());
 			}
-			
-			if(user.getCompany() != null) {
+
+			if (user.getCompany() != null) {
 				userToSave.setCompany(user.getCompany());
 			}
-			
-			if(user.getActivated() != null) {
+
+			if (user.getActivated() != null) {
 				userToSave.setActivated(user.getActivated());
 			}
-			
+
 			userToSave.setUpdateAt(new Date());
 			userExit = userService.save(userToSave);
-			
-		} else { //SAVE			
+
+		} else { // SAVE
 			user.setCreateAt(new Date());
-			user.setPassword(DigestUtils.sha256Hex(user.getPassword()));//Password hashet sha256
-			if(user.getPathPhoto().isEmpty()) {
+			user.setPassword(DigestUtils.sha256Hex(user.getPassword()));// Password hashet sha256
+			if (user.getPathPhoto().isEmpty() || null == user.getPathPhoto()) {
 				user.setPathPhoto(Constants.PATH_PHOTO_DEFAULT);
 			}
 			userExit = userService.save(user);
 		}
-		
+
 		return userExit;
-		
+
 	}
-	
-	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
+
+	/**
+	* Name:			delete()
+	* @Params:		id
+	* Description:	Elimina usuario a partir de su ID
+	* */
+	@RequestMapping(value = ConstantsWS.WS_USER_ID, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable(ConstantsWS.ID) Long id) {
 		userService.delete(id);
 	}
-	
-	@RequestMapping(value = "/user/login", method = RequestMethod.POST)
+
+	/**
+	* Name:			login()
+	* @Params:		user
+	* Description:	Se logea en el sistema a partir de email y password
+	* */
+	@RequestMapping(value = ConstantsWS.WS_USER_LOGIN, method = RequestMethod.POST)
 	public User login(@RequestBody User user) {
 		return userService.login(user.getEmail(), DigestUtils.sha256Hex(user.getPassword()));
-		
 	}
-	
-	@RequestMapping(value = "/users/company/{id}", method = RequestMethod.GET)
-	public List<User> findByCompany(@PathVariable("id")Long idCompany) {
+
+	/**
+	* Name:			findByCompany()
+	* @Params:		idCompany
+	* Description:	Retorna una lista de usuarios a partir del id de la entidad Company
+	* */
+	@RequestMapping(value = ConstantsWS.WS_USER_COMPANY_ID, method = RequestMethod.GET)
+	public List<User> findByCompany(@PathVariable(ConstantsWS.ID) Long idCompany) {
 		return userService.findByCompany(idCompany);
 	}
-	
-	@RequestMapping(value = "/user/order", method = RequestMethod.POST)
+
+	/**
+	* Name:			findByOrder()
+	* @Params:		order
+	* Description:	Retorna un usuario asociado a una entidad Orden
+	* */
+	@RequestMapping(value = ConstantsWS.WS_USER_ORDER, method = RequestMethod.POST)
 	public User findByOrder(@RequestBody Order order) {
-		User user =  userService.findByOrder(order);
-		
+		User user = userService.findByOrder(order);
+
 		User out = new User();
-		
+
 		out.setId(user.getId());
-		out.setName(user.getName());
-		out.setSurname(user.getSurname());
-		out.setEmail(user.getEmail());
-		out.setPathPhoto(user.getPathPhoto());
+		out.setName(user.getName().trim());
+		out.setSurname(user.getSurname().trim());
+		out.setEmail(user.getEmail().trim());
+		out.setPathPhoto(user.getPathPhoto().trim());
 		out.setPosition(user.getPosition());
-		
+
 		return out;
-		
+
 	}
-	
 
 }

@@ -19,10 +19,11 @@ import com.workderapi.entity.Order;
 import com.workderapi.entity.User;
 import com.workderapi.services.CompanyServiceIface;
 import com.workderapi.services.OrderServiceIface;
+import com.workderapi.util.Constants.ConstantsWS;
 
-@CrossOrigin(origins= "http://localhost:4200")
+@CrossOrigin(origins= ConstantsWS.WS_DNS)
 @RestController
-@RequestMapping("/workder_api")
+@RequestMapping(ConstantsWS.WS_BASE_WORKDER_API)
 public class OrderController {
 	
 	@Autowired
@@ -34,61 +35,61 @@ public class OrderController {
 	/*-----------------------METHODS-----------------------*/
 	
 	/**
-	 * Name:		index()
-	 * Params:		None
-	 * Description:	Return all orders of database
-	 * */
-	@RequestMapping(value = "/orders", method = RequestMethod.GET)
+	 * Name: index()
+	 * @Params:  
+	 * Description: Retorna todas las ordenes de BD
+	 */
+	@RequestMapping(value = ConstantsWS.WS_ORDERS, method = RequestMethod.GET)
 	public List<Order> index(){
 		return orderService.findAll();
 	}
 	
 	/**
 	 * Name:		show()
-	 * Params:		Long id
-	 * Description:	Return order of id of params
+	 * @Params:		id
+	 * Description:	Retorna una orden a partir de su id
 	 * */
-	@RequestMapping(value = "/order/{id}", method = RequestMethod.GET)
-	public Order show(@PathVariable("id") Long id) {
+	@RequestMapping(value = ConstantsWS.WS_ORDER_ID, method = RequestMethod.GET)
+	public Order show(@PathVariable(ConstantsWS.ID) Long id) {
 		return orderService.findById(id);
 	}
 	
 	/**
 	 * Name:		getOrdersComplete()
-	 * Params:		User user
-	 * Description:	Return all order of one user completed
+	 * @Params:		user
+	 * Description:	Retorna todas las ordenes completadas a partir de un usuario
 	 * */
-	@RequestMapping(value = "/orders/complete", method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_ORDERS_COMPLETE, method = RequestMethod.POST)
 	public List<Order> getOrdersComplete( @RequestBody User user ) {
 		return orderService.getOrdersCompleteByUser(user);	
 	}
 	
 	/**
 	 * Name:		getOrdersIncomplete()
-	 * Params:		User user
-	 * Description:	Return all order of one user incompleted
+	 * @Params:		user
+	 * Description:	Retorna todas las ordenes incompletas a partir de un usuario
 	 * */
-	@RequestMapping(value = "/orders/incomplete", method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_ORDERS_INCOMPLETE, method = RequestMethod.POST)
 	public List<Order> getOrdersIncomplete( @RequestBody User user ) {
 		return orderService.getOrdersIncompleteByUser(user);
 	}
 	
 	/**
 	 * Name:		getOrdersByUser()
-	 * Params:		User user
-	 * Description:	Return all order of one user
+	 * @Params:		user
+	 * Description:	Retorna todas las ordenes de un usuario
 	 * */
-	@RequestMapping(value = "/orders/user", method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_ORDERS_USER, method = RequestMethod.POST)
 	public List<Order> getOrdersByUser( @RequestBody User user ) {
 		return orderService.getOrdersByUser(user);
 	}
 	
 	/**
 	 * Name:		getOrdersCompleteOfCompany()
-	 * Params:		User user
-	 * Description:	Return all order of one company completed
+	 * @Params:		user
+	 * Description:	Retorna todas las ordenes completadas de una company
 	 * */
-	@RequestMapping(value = "/orders/company_complete", method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_ORDERS_COMPANY_COMPLETE, method = RequestMethod.POST)
 	public List<Order> getOrdersCompleteByCompany( @RequestBody Company company ) {
 		
 		List<Order> ordersComplete = new ArrayList<>();
@@ -106,10 +107,10 @@ public class OrderController {
 	
 	/**
 	 * Name:		getOrdersIncompleteOfCompany()
-	 * Params:		User user
-	 * Description:	Return all order of one company completed
+	 * @Params:		user
+	 * Description:	Retorna todas las ordenes incompletas de una company
 	 * */
-	@RequestMapping(value = "/orders/company_incomplete", method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_ORDERS_COMPANY_INCOMPLETE, method = RequestMethod.POST)
 	public List<Order> getOrdersIncompleteByCompany( @RequestBody Company company ) {
 		
 		List<Order> ordersComplete = new ArrayList<>();
@@ -126,11 +127,11 @@ public class OrderController {
 	}
 	
 	/**
-	 * Name:		create/update()
-	 * Params:		Order order
-	 * Description:	Save or Update order send.
+	 * Name:		create()
+	 * @Params:		order
+	 * Description:	Crea/Actualiza una entidad Order
 	 * */
-	@RequestMapping(value = "/order", method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_ORDER, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Order create(@RequestBody Order order) {
 		
@@ -173,12 +174,12 @@ public class OrderController {
 	
 	/**
 	 * Name:		delete()
-	 * Params:		Long id
-	 * Description:	Delete order.
+	 * @Params:		id
+	 * Description:	Elimina una entidad Order a partir de su id.
 	 * */
-	@RequestMapping(value = "/order/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = ConstantsWS.WS_ORDER_ID, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable(ConstantsWS.ID) Long id) {
 		orderService.delete(id);
 	}
 

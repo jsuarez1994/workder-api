@@ -6,11 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,76 +14,94 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.Company;
-import com.workderapi.entity.Company;
 import com.workderapi.services.CompanyServiceIface;
-import com.workderapi.util.Constants;
+import com.workderapi.util.Constants.ConstantsWS;
 
-@CrossOrigin(origins= "http://localhost:4200")
+@CrossOrigin(origins = ConstantsWS.WS_DNS)
 @RestController
-@RequestMapping("/workder_api")
+@RequestMapping(ConstantsWS.WS_BASE_WORKDER_API)
 public class CompanyController {
-	
+
 	@Autowired
 	CompanyServiceIface companyService;
-	
+
 	/*-----------------------METHODS-----------------------*/
-	
-	@RequestMapping(value = "/companys", method = RequestMethod.GET)
-	public List<Company> index(){
+
+	/**
+	* Name:			index()
+	* @Params:		
+	* Description:	Retorna todas las entidades Company
+	* */
+	@RequestMapping(value = ConstantsWS.WS_COMPANYS, method = RequestMethod.GET)
+	public List<Company> index() {
 		return companyService.findAll();
 	}
-	
-	@RequestMapping(value = "/company/{id}", method = RequestMethod.GET)
-	public Company show(@PathVariable("id") Long id) {
+
+	/**
+	* Name:			show()
+	* @Params:		id
+	* Description:	Retorna una entidad Company a partir de su id
+	* */
+	@RequestMapping(value = ConstantsWS.WS_COMPANY_ID, method = RequestMethod.GET)
+	public Company show(@PathVariable(ConstantsWS.ID) Long id) {
 		return companyService.findById(id);
 	}
-	
-	
-	@RequestMapping(value = "/company", method = RequestMethod.POST)
+
+	/**
+	* Name:			create()
+	* @Params:		company
+	* Description:	Crea/Actualiza una company
+	* */
+	@RequestMapping(value = ConstantsWS.WS_COMPANY, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Company create(@RequestBody Company company) {
-		
+
 		Company companyToSave;
 		Company companyExit;
-		
-		if( company.getId() != null ) { //UPDATE
+
+		if (company.getId() != null) { // UPDATE
 			companyToSave = companyService.findById(company.getId());
-			
-			if(company.getName() != null) {
+
+			if (company.getName() != null) {
 				companyToSave.setName(company.getName());
 			}
-			
-			if(company.getDescription() != null) {
+
+			if (company.getDescription() != null) {
 				companyToSave.setDescription(company.getDescription());
 			}
-			
-			if(company.getAddress() != null) {
+
+			if (company.getAddress() != null) {
 				companyToSave.setAddress(company.getAddress());
 			}
-			
-			if(company.getSector() != null) {
+
+			if (company.getSector() != null) {
 				companyToSave.setSector(company.getSector());
 			}
-			
-			if(company.getWeb() != null) {
+
+			if (company.getWeb() != null) {
 				companyToSave.setWeb(company.getWeb());
 			}
-			
+
 			companyToSave.setUpdateAt(new Date());
 			companyExit = companyService.save(companyToSave);
-			
-		} else { //SAVE			
+
+		} else { // SAVE
 			company.setCreateAt(new Date());
 			companyExit = companyService.save(company);
 		}
-		
+
 		return companyExit;
-		
+
 	}
-	
-	@RequestMapping(value = "/company/{id}", method = RequestMethod.DELETE)
+
+	/**
+	* Name:			delete()
+	* @Params:		id
+	* Description:	Elimina una company por su id
+	* */
+	@RequestMapping(value = ConstantsWS.WS_COMPANY_ID, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable(ConstantsWS.ID) Long id) {
 		companyService.delete(id);
 	}
 

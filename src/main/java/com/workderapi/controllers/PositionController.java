@@ -1,6 +1,5 @@
 package com.workderapi.controllers;
 
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,63 +14,82 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.workderapi.entity.Position;
 import com.workderapi.services.PositionServiceIface;
+import com.workderapi.util.Constants.ConstantsWS;
 
-@CrossOrigin(origins= "http://localhost:4200")
+@CrossOrigin(origins = ConstantsWS.WS_DNS)
 @RestController
-@RequestMapping("/workder_api")
+@RequestMapping(ConstantsWS.WS_BASE_WORKDER_API)
 public class PositionController {
-	
+
 	@Autowired
 	PositionServiceIface positionService;
-	
-	
+
 	/*-----------------------METHODS-----------------------*/
-	
-	@RequestMapping(value = "/positions", method = RequestMethod.GET)
-	public List<Position> index(){
+
+	/**
+	* Name:			index()
+	* @Params:		
+	* Description:	Retorna todas las entidades Position de BD
+	* */
+	@RequestMapping(value = ConstantsWS.WS_POSITIONS, method = RequestMethod.GET)
+	public List<Position> index() {
 		return positionService.findAll();
 	}
-	
-	@RequestMapping(value = "/position/{id}", method = RequestMethod.GET)
-	public Position show(@PathVariable("id") Long id) {
+
+	/**
+	 * Name:		show()
+	 * @Params:		id
+	 * Description:	Retorna una posicion a partir de su id
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_POSITION_ID, method = RequestMethod.GET)
+	public Position show(@PathVariable(ConstantsWS.ID) Long id) {
 		return positionService.findById(id);
 	}
-	
-	@RequestMapping(value = "/position", method = RequestMethod.POST)
+
+	/**
+	 * Name:		create()
+	 * @Params:		position
+	 * Description:	Crea/Actualiza una entidad Position
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_POSITION, method = RequestMethod.POST)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Position create(@RequestBody Position position) {
-		
+
 		Position positionToSave;
 		Position positionExit;
-		
-		if( position.getId() != null ) { //UPDATE
+
+		if (position.getId() != null) { // UPDATE
 			positionToSave = positionService.findById(position.getId());
-			
-			if(position.getName() != null) {
+
+			if (position.getName() != null) {
 				positionToSave.setName(position.getName());
 			}
-			
-			if(position.getDescription() != null) {
+
+			if (position.getDescription() != null) {
 				positionToSave.setDescription(position.getDescription());
 			}
-			if(position.getUsers() != null) {
+			if (position.getUsers() != null) {
 				positionToSave.setUsers(position.getUsers());
 			}
-			
+
 			positionExit = positionService.save(positionToSave);
-			
-		} else { //SAVE			
+
+		} else { // SAVE
 			positionExit = positionService.save(position);
 		}
-		
+
 		return positionExit;
-		
+
 	}
-	
-	
-	@RequestMapping(value = "/position/{id}", method = RequestMethod.DELETE)
+
+	/**
+	 * Name:		delete()
+	 * @Params:		id
+	 * Description:	Elimina una entidad Position a partir de su id.
+	 * */
+	@RequestMapping(value = ConstantsWS.WS_POSITION_ID, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void delete(@PathVariable("id") Long id) {
+	public void delete(@PathVariable(ConstantsWS.ID) Long id) {
 		positionService.delete(id);
 	}
 
