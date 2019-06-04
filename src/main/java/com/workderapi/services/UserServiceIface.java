@@ -17,7 +17,7 @@ public interface UserServiceIface {
 	
 	public User login(String email, String password);
 	
-	public List<User> findByCompany(Long idCompany);
+	public List<User> findByCompanyAndUserActivatedTrue(Long idCompany);
 	
 	public User findByOrder(Order order);
 

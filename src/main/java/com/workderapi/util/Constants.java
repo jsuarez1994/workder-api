@@ -23,7 +23,7 @@ public final class Constants {
 		public static final String WS_USER = "/user";
 		public static final String WS_USER_ID = "/user/{id}";
 		public static final String WS_USER_LOGIN = "/user/login";
-		public static final String WS_USER_COMPANY_ID = "/users/company/{id}";
+		public static final String WS_USER_ACTIVE_COMPANY_ID = "/users/active/{id}";
 		public static final String WS_USER_ORDER = "/user/order";
 
 		// COMPANY WS

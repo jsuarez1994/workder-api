@@ -141,11 +141,11 @@ public class UserController {
 	/**
 	* Name:			findByCompany()
 	* @Params:		idCompany
-	* Description:	Retorna una lista de usuarios a partir del id de la entidad Company
+	* Description:	Retorna una lista de usuarios activos a partir del id de la entidad Company
 	* */
-	@RequestMapping(value = ConstantsWS.WS_USER_COMPANY_ID, method = RequestMethod.GET)
+	@RequestMapping(value = ConstantsWS.WS_USER_ACTIVE_COMPANY_ID, method = RequestMethod.GET)
 	public List<User> findByCompany(@PathVariable(ConstantsWS.ID) Long idCompany) {
-		return userService.findByCompany(idCompany);
+		return userService.findByCompanyAndUserActivatedTrue(idCompany);
 	}
 
 	/**

@@ -72,10 +72,10 @@ public class UserServiceImpl implements UserServiceIface {
 	* Description:	Return List User Bean by id .
 	* */
 	@Override
-	public List<User> findByCompany(Long idCompany) {
+	public List<User> findByCompanyAndUserActivatedTrue(Long idCompany) {
 		Company company = new Company();
 		company.setId(idCompany);
-		return userDao.findByCompany(company);
+		return userDao.findByCompanyAndActivatedTrue(company);
 	}
 	
 	/**
