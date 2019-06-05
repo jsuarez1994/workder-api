@@ -1,10 +1,33 @@
 package com.workderapi.util;
 
 public final class Constants {
+	
+	public static final String EMPTY = "";
 
-	// PHOTO DEFAULT
-	public static String PATH_PHOTO_DEFAULT = "../../assets/images/user.png";
+	
+	/**
+	 * Constantes para uso de las entidades.
+	 * */
+	public final class ConstantsEntity {
+		// PHOTO DEFAULT
+		public static final String PATH_PHOTO_DEFAULT = "../../assets/images/user.png";
 
+	}
+	
+	
+	/**
+	 * Constantes para mail
+	 * */
+	public final class ConstantsMail {
+		public static final String MAIL_SMTP_PORT = "mail.smtp.port";
+		public static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
+		public static final String MAIL_SMTP_ENABLE = "mail.smtp.starttls.enable";
+		
+		public static final String MAIL_PORT = "587";
+		public static final String MAIL_AUTH = "true";
+		public static final String MAIL_ENABLE = "true";
+	}
+	
 	/**
 	 * Constantes utilizadas en los controladores. Determina la url de cada metodo.
 	 */
@@ -25,6 +48,7 @@ public final class Constants {
 		public static final String WS_USER_LOGIN = "/user/login";
 		public static final String WS_USER_ACTIVE_COMPANY_ID = "/users/active/{id}";
 		public static final String WS_USER_ORDER = "/user/order";
+		public static final String WS_USER_SEND_MAIL = "/user/mail";
 
 		// COMPANY WS
 		public static final String WS_COMPANYS = "/companys";
