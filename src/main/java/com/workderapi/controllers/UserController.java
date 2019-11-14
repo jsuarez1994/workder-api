@@ -12,6 +12,7 @@ import javax.mail.Transport;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -41,9 +42,9 @@ public class UserController {
 	/**
 	 * Name: index()
 	 * 
-	 * @Params: 
+	 * @Params:
 	 * 
-	 * Description: Retorna todos los usuarios de la BD
+	 *          Description: Retorna todos los usuarios de la BD
 	 */
 	@RequestMapping(value = ConstantsWS.WS_USERS, method = RequestMethod.GET)
 	public List<User> index() {
@@ -53,9 +54,9 @@ public class UserController {
 	/**
 	 * Name: show()
 	 * 
-	 * @Params: id 
+	 * @Params: id
 	 * 
-	 * Description: Muestra usuario a partir de su ID
+	 *          Description: Muestra usuario a partir de su ID
 	 */
 	@RequestMapping(value = ConstantsWS.WS_USER_ID, method = RequestMethod.GET)
 	public User show(@PathVariable(ConstantsWS.ID) Long id) {
@@ -67,76 +68,20 @@ public class UserController {
 	 * 
 	 * @Params: user D
 	 * 
-	 * escription: Crea/Actualiza usuario
+	 *          escription: Crea/Actualiza usuario
 	 */
-	@RequestMapping(value = ConstantsWS.WS_USER, method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_USER, method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public User create(@RequestBody User user) {
-
-		User userToSave;
-		User userExit;
-
-		if (user.getId() != null) { // UPDATE
-			userToSave = userService.findById(user.getId());
-
-			if (user.getName() != null) {
-				userToSave.setName(user.getName().trim());
-			}
-
-			if (user.getSurname() != null) {
-				userToSave.setSurname(user.getSurname().trim());
-			}
-
-			if (user.getPathPhoto() != null) {
-				userToSave.setPathPhoto(user.getPathPhoto().trim());
-			}
-
-			if (user.getEmail() != null) {
-				userToSave.setEmail(user.getEmail().trim());
-			}
-
-			if (user.getPassword() != null) {
-				userToSave.setPassword(user.getPassword().trim());
-			}
-
-			if (user.getRol() != null) {
-				userToSave.setRol(user.getRol());
-			}
-
-			if (user.getPosition() != null) {
-				userToSave.setPosition(user.getPosition());
-			}
-
-			if (user.getCompany() != null) {
-				userToSave.setCompany(user.getCompany());
-			}
-
-			if (user.getActivated() != null) {
-				userToSave.setActivated(user.getActivated());
-			}
-
-			userToSave.setUpdateAt(new Date());
-			userExit = userService.save(userToSave);
-
-		} else { // SAVE
-			user.setCreateAt(new Date());
-			user.setPassword(DigestUtils.sha256Hex(user.getPassword()));// Password hashet sha256
-			if (user.getPathPhoto().isEmpty() || null == user.getPathPhoto()) {
-				user.setPathPhoto(ConstantsEntity.PATH_PHOTO_DEFAULT);
-			}
-			userExit = userService.save(user);
-		}
-
-		return userExit;
-
+		return userService.save(user);
 	}
 
 	/**
 	 * Name: delete()
 	 * 
-	 * @Params: id 
+	 * @Params: id
 	 * 
-	 * Description: Elimina usuario a partir de su ID
+	 *          Description: Elimina usuario a partir de su ID
 	 */
 	@RequestMapping(value = ConstantsWS.WS_USER_ID, method = RequestMethod.DELETE)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
@@ -147,12 +92,11 @@ public class UserController {
 	/**
 	 * Name: login()
 	 * 
-	 * @Params: user 
+	 * @Params: user
 	 * 
-	 * Description: Se logea en el sistema a partir de email y
-	 *          password
+	 *          Description: Se logea en el sistema a partir de email y password
 	 */
-	@RequestMapping(value = ConstantsWS.WS_USER_LOGIN, method = RequestMethod.POST)
+	@RequestMapping(value = ConstantsWS.WS_USER_LOGIN, method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public User login(@RequestBody User user) {
 		return userService.login(user.getEmail(), DigestUtils.sha256Hex(user.getPassword()));
 	}
@@ -160,10 +104,10 @@ public class UserController {
 	/**
 	 * Name: findByCompany()
 	 * 
-	 * @Params: idCompany 
+	 * @Params: idCompany
 	 * 
-	 * Description: Retorna una lista de usuarios activos a
-	 *          partir del id de la entidad Company
+	 *          Description: Retorna una lista de usuarios activos a partir del id
+	 *          de la entidad Company
 	 */
 	@RequestMapping(value = ConstantsWS.WS_USER_ACTIVE_COMPANY_ID, method = RequestMethod.GET)
 	public List<User> findByCompany(@PathVariable(ConstantsWS.ID) Long idCompany) {
@@ -173,9 +117,9 @@ public class UserController {
 	/**
 	 * Name: findByOrder()
 	 * 
-	 * @Params: order 
+	 * @Params: order
 	 * 
-	 * Description: Retorna un usuario asociado a una entidad Orden
+	 *          Description: Retorna un usuario asociado a una entidad Orden
 	 */
 	@RequestMapping(value = ConstantsWS.WS_USER_ORDER, method = RequestMethod.POST)
 	public User findByOrder(@RequestBody Order order) {
@@ -197,9 +141,9 @@ public class UserController {
 	/**
 	 * Name: sendEmail()
 	 * 
-	 * @Params: email 
+	 * @Params: email
 	 * 
-	 * Description: Retorna un usuario asociado a una entidad Orden
+	 *          Description: Retorna un usuario asociado a una entidad Orden
 	 */
 	@RequestMapping(value = ConstantsWS.WS_USER_SEND_MAIL, method = RequestMethod.POST)
 	public MailDTO sendEmail(@RequestBody MailDTO email) {

@@ -3,6 +3,7 @@ package com.workderapi.util;
 public final class Constants {
 	
 	public static final String EMPTY = "";
+	public static final String FORMAT_DATE = "yyyy-MM-dd";
 
 	
 	/**
@@ -79,6 +80,18 @@ public final class Constants {
 		public static final String WS_SECTORS = "/sectors";
 		public static final String WS_SECTOR = "/sector";
 		public static final String WS_SECTOR_ID = "/sector/{id}";
+	}
+	
+	/**
+	 * Constantes para pattern
+	 * 
+	 * */
+	public final class ConstantsRegex {
+		
+		public static final String REGEX_MAIL = "^(.+)@(.+)$";
+		public static final String REGEX_STRINGS = "([^0-9&+,:;=?@#]*)";
+		public static final String REGEX_SPECIAL_CHARACTERS = "[$&+,:;=?@#|'<>-^*()%!]";
+		
 	}
 
 }
